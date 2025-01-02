@@ -1,0 +1,18 @@
+{
+    "loginPayLoad": {
+      "userEmail": "anshika@gmail.com",
+      "userPassword": "Iamking@000"
+    },
+    "orderPayLoad": {
+      "orders": [
+        {
+          "country": "Cuba",
+          "productOrderedId": "6581cade9fd99c85e8ee7ff5"
+        }
+      ]
+    },
+    "fakePayloadOrders": {
+      "data": [],
+      "message": "No Orders"
+    }
+}
