@@ -1,6 +1,4 @@
 // @ts-check
-const { devices } = require('@playwright/test');
-
 const config = {
   testDir: './tests',
   workers: 3,

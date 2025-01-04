@@ -1,31 +1,35 @@
-import {type Page, type Locator} from '@playwright/test';
+import {type Page, type Locator, expect} from '@playwright/test';
 
 export class LoginPage {
-
-    signInButton: Locator;
-    userName: Locator;
-    cart: Locator;
+    page : Page;
+    email: Locator;
     password: Locator;
-    page: Page;
+    loginButton: Locator;
+    toastMessage: Locator;
 
     constructor(page: Page){
-
         this.page = page;
-        this.signInButton = page.locator("[value='Login']");
-        this.userName =  page.locator("#userEmail");
+        this.loginButton = page.locator("#login");
+        this.email =  page.locator("#userEmail");
         this.password = page.locator("#userPassword");
+        this.toastMessage = page.locator("#toast-container");
     }
 
     async goTo(){
         await this.page.goto("https://rahulshettyacademy.com/client");
     }
 
-    async validLogin(username: string, password: string){
-        await this.userName.fill(username);
+
+    async userLogin(email: string, password: string){
+        await this.email.fill(email);
         await this.password.fill(password);
-        await this.signInButton.click();
-        await this.page.waitForLoadState('networkidle');
+        await this.loginButton.click();
+        const response = await this.page.waitForResponse(response => 
+            response.url().includes('/api/ecom/auth/login')
+        );
+        if(response.status() !== 200){
+            await expect(this.toastMessage).toContainText("Incorrect email or password.");
+        }
     }
 }
-
 module.exports = {LoginPage};
