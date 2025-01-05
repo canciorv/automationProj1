@@ -16,6 +16,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "exceljs": "^4.4.0"
+    "exceljs": "^4.4.0",
+    "fs": "^0.0.1-security"
   }
 }
