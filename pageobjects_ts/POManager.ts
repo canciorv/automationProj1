@@ -1,24 +1,24 @@
-import {type Page} from '@playwright/test';
-import {LoginPage} from './LoginPage';
-import {HomePage} from './HomePage';
+import { type Page } from "@playwright/test";
+import { LoginPage } from "./LoginPage";
+import { HomePage } from "./HomePage";
 
 export class POManager {
-    page: Page;
-    loginPage : LoginPage;
-    homePage: HomePage;
-    
-    constructor(page: Page){
-        this.page = page;
-        this.loginPage = new LoginPage(this.page); 
-        this.homePage = new HomePage(this.page);
-    }
+  page: Page;
+  loginPage: LoginPage;
+  homePage: HomePage;
 
-    getLoginPage(){
-        return this.loginPage;
-    }
+  constructor(page: Page) {
+    this.page = page;
+    this.loginPage = new LoginPage(this.page);
+    this.homePage = new HomePage(this.page);
+  }
 
-    getHomePage(){
-        return this.homePage;
-    }
+  getLoginPage() {
+    return this.loginPage;
+  }
+
+  getHomePage() {
+    return this.homePage;
+  }
 }
-module.exports = {POManager};
+module.exports = { POManager };
