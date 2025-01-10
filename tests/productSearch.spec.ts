@@ -18,7 +18,7 @@ test.beforeAll(async () => {
 });
 
 for (const products of productList) {
-  test(`Search Product${products.item}`, async ({ page }) => {
+  test(`Search Product ${products.item}`, async ({ page }) => {
     const poManager = new POManager(page);
     await page.addInitScript((value) => {
       window.localStorage.setItem("token", value);
@@ -26,5 +26,15 @@ for (const products of productList) {
     await page.goto("https://rahulshettyacademy.com/client/");
     const homePage = poManager.getHomePage();
     await homePage.searchProduct(products.item);
+  });
+
+  test.only(`Filter Price ${products.item}`, async ({ page }) => {
+    const poManager = new POManager(page);
+    await page.addInitScript((value) => {
+      window.localStorage.setItem("token", value);
+    }, token);
+    await page.goto("https://rahulshettyacademy.com/client/");
+    const homePage = poManager.getHomePage();
+    await homePage.filterPrice(products.item, products.price, products.minPrice, products.maxPrice);
   });
 }

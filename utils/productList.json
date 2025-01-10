@@ -1,9 +1,20 @@
 [
     {
-        "item": "IPHONE 13 PRO"
+        "item": "IPHONE 13 PRO",
+        "price": "$ 231500",
+        "minPrice": "50000",
+        "maxPrice": "250000"
         
     },
     {
-        "item": "TEST PRODUCT"
+        "item": "BANARSI SAREE",
+        "price": "$ 231500",
+        "minPrice": "50000",
+        "maxPrice": "250000"
+    },
+    {
+        "item": "TEST PRODUCT",
+        "minPrice": "50000",
+        "maxPrice": "250000"
     }
 ]
