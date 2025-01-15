@@ -13,6 +13,7 @@ export class HomePage {
   toastMessage: Locator;
   minPrice: Locator;
   maxPrice: Locator;
+  checkboxOption: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -22,6 +23,7 @@ export class HomePage {
     this.toastMessage = page.locator("#toast-container");
     this.minPrice = page.locator('[name="minPrice"]').nth(1);
     this.maxPrice = page.locator('[name="maxPrice"]').nth(1);
+    this.checkboxOption = page.locator('[for="cat"]');
   }
 
   async searchProduct(product: string) {
@@ -34,12 +36,21 @@ export class HomePage {
     const jsonResponse = await response.json();
     if (jsonResponse.count > 0) {
       await expect(this.cardBody).toContainText(product);
+      return true;
     } else {
       await expect(this.toastMessage).toContainText("No Products Found");
+      return false;
     }
   }
 
-  async filterPrice(product: string, productPrice: string, minPrice: string, maxPrice: string) {
+
+
+  async filterPrice(
+    product: string,
+    productPrice: string,
+    minPrice: string,
+    maxPrice: string
+  ) {
     await this.minPrice.fill(minPrice);
     await this.maxPrice.fill(maxPrice);
     await this.page.keyboard.press("Enter");
@@ -56,5 +67,6 @@ export class HomePage {
       console.log(`Product ${product} not found.`);
     }
   }
+
 }
 module.exports = { HomePage };

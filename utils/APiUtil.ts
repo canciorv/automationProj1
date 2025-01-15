@@ -18,6 +18,26 @@ export class APiUtil {
         return token;
     }
 
+    async filterCategory(token){
+        const filterResponse = await this.apiContext.post('https://rahulshettyacademy.com/api/ecom/product/get-all-products',
+        {
+            
+            headers: {
+                Authorization: token
+              },
+              data: this.payload
+            
+        });
+        const filterResponseJson = await filterResponse.json();
+        const productCategoryCount = await filterResponseJson.data.length;
+
+        let responseData: any[] = []
+        for(let i=0; i < productCategoryCount; i++){
+            responseData.push(filterResponseJson.data[i].productCategory)
+        }
+        return responseData;
+
+    }
 }
 
 module.exports = {APiUtil};
