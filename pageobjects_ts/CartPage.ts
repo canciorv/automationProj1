@@ -12,7 +12,8 @@ export class CartPage {
     }
     
     async goTo(){
-        await this.cartPageButton.click();        
+        await this.cartPageButton.click();   
+     
     }
 
     async checkout(){

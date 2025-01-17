@@ -27,7 +27,6 @@ export class HomePage {
   }
 
   async searchProduct(product: string) {
-    await this.page.waitForLoadState("networkidle");
     await this.searchBar.fill(product);
     await this.page.keyboard.press("Enter");
     const response = await this.page.waitForResponse((response) =>
