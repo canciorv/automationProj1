@@ -47,6 +47,7 @@ for (const credentials of loginData) {
           await excelFile.validateCellValue('/Users/2226004/Downloads/automationProjData.xlsx', 'data', credentials.userEmail);
           const orderHistoryPage = poManager.getOrderHistoryPage();
           await orderHistoryPage.goTo();
+          await orderHistoryPage.verifyOrder(orderId);
 
         } else {
           page.close();
