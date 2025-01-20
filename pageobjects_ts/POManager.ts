@@ -7,6 +7,8 @@ import { CheckoutPage } from "./CheckoutPage";
 import { OrderVerificationPage } from "./OrderVerificationPage";
 import { OrderHistoryPage } from "./OrderHistoryPage";
 import { ExcelFile } from "./ExcelFile";
+import { OrderDetailsPage } from "./OrderDetailsPage";
+
 
 export class POManager {
   page: Page;
@@ -18,6 +20,7 @@ export class POManager {
   orderVerificationPage: OrderVerificationPage;
   orderHistoryPage: OrderHistoryPage;
   excelFile: ExcelFile;
+  orderDetailsPage: OrderDetailsPage;
 
   constructor(page: Page) {
     this.page = page;
@@ -29,6 +32,7 @@ export class POManager {
     this.orderVerificationPage = new OrderVerificationPage(this.page);
     this.orderHistoryPage = new OrderHistoryPage(this.page);
     this.excelFile = new ExcelFile(this.page);
+    this.orderDetailsPage = new OrderDetailsPage(this.page);
   }
 
   getLoginPage() {
@@ -61,6 +65,10 @@ export class POManager {
 
   getExcelFile(){
     return this.excelFile
+  }
+
+  getOrderDetailsPage(){
+    return this.orderDetailsPage
   }
 }
 module.exports = { POManager };

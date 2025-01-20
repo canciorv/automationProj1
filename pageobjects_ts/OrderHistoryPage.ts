@@ -4,7 +4,7 @@ export class OrderHistoryPage {
   page: Page;
   ordersButton: Locator;
   orderIdElement: Locator;
-  dateElement: Locator;
+  tableRow: Locator;
 
   constructor(page) {
     this.page = page;
@@ -12,7 +12,7 @@ export class OrderHistoryPage {
       .locator('[routerlink="/dashboard/myorders"]')
       .first();
     this.orderIdElement = page.locator('tr.ng-star-inserted th[scope="row"]');
-    this.dateElement = page.locator("tr.ng-star-inserted");
+    this.tableRow = page.locator("tr.ng-star-inserted");
   }
 
   async goTo() {
@@ -29,7 +29,7 @@ export class OrderHistoryPage {
       if (index === orderId) {
         await expect(index).toEqual(orderId);
         matchingRowIndex = i;
-        break;
+        return matchingRowIndex;
       }
     }
 
@@ -45,13 +45,21 @@ export class OrderHistoryPage {
     );
     const formattedDate = estDate.replace(",", "");
 
-    const dateCell = await this.dateElement
+    const dateCell = await this.tableRow
       .nth(matchingRowIndex)
       .locator("td:nth-child(5)")
       .textContent();
     if (formattedDate === dateCell) {
       await expect(formattedDate).toEqual(dateCell);
     }
+  }
+
+  async deleteOrder(matchingIndex){
+    await this.tableRow.nth(matchingIndex).locator('.btn-danger').click();
+  }
+  
+  async verifyDeleteOrder(order){
+    await expect(this.page.locator(`:has-text("${order}")`).nth(0)).toBeHidden();
   }
 }
 

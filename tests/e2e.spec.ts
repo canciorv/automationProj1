@@ -39,7 +39,7 @@ for (const credentials of loginData) {
           await checkoutPage.placeOrder();
           const orderVerificationPage = poManager.getOrderVerificationPage();
           await orderVerificationPage.verifyProductDetails(product.item, product.price);
-          const orderId = await orderVerificationPage.getOrderId();
+          const orderId: any = await orderVerificationPage.getOrderId();
           const excelFile = poManager.getExcelFile();
           await excelFile.validateCellValue('/Users/2226004/Downloads/automationProjData.xlsx', 'data', orderId);
           await excelFile.validateCellValue('/Users/2226004/Downloads/automationProjData.xlsx', 'data', product.item);
@@ -47,7 +47,13 @@ for (const credentials of loginData) {
           await excelFile.validateCellValue('/Users/2226004/Downloads/automationProjData.xlsx', 'data', credentials.userEmail);
           const orderHistoryPage = poManager.getOrderHistoryPage();
           await orderHistoryPage.goTo();
-          await orderHistoryPage.verifyOrder(orderId);
+          const matchingIndex = await orderHistoryPage.verifyOrder(orderId);
+          const orderDetailsPage = poManager.getOrderDetailsPage();
+          await orderDetailsPage.viewOrderDetails(matchingIndex);
+          await orderDetailsPage.verifyOrderDetails(orderId, product.item, product.price);
+          await orderHistoryPage.goTo();
+          await orderHistoryPage.deleteOrder(matchingIndex);
+          await orderHistoryPage.verifyDeleteOrder(orderId);
 
         } else {
           page.close();
