@@ -32,5 +32,12 @@ export class LoginPage {
       );
     }
   }
+
+  async localStorageIsEmpty() {
+    const isEmpty = await this.page.evaluate(() => {
+      return localStorage.length === 0;
+    });
+    await expect(isEmpty).toBe(true);
+  }
 }
 module.exports = { LoginPage };

@@ -54,13 +54,19 @@ export class OrderHistoryPage {
     }
   }
 
-  async deleteOrder(matchingIndex){
-    await this.tableRow.nth(matchingIndex).locator('.btn-danger').click();
+  async deleteOrder(orderId) {
+    await this.page
+      .getByRole("row", { name: `${orderId}` })
+      .locator(".btn-danger")
+      .click();
   }
-  
-  async verifyDeleteOrder(order){
-    await expect(this.page.locator(`:has-text("${order}")`).nth(0)).toBeHidden();
+
+  async verifyDeleteOrder(orderId) {
+    await expect(
+      this.page.locator(`:has-text("${orderId}")`).nth(8)
+    ).toBeHidden();
   }
+
 }
 
 module.exports = { OrderHistoryPage };

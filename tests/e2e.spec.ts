@@ -52,8 +52,10 @@ for (const credentials of loginData) {
           await orderDetailsPage.viewOrderDetails(matchingIndex);
           await orderDetailsPage.verifyOrderDetails(orderId, product.item, product.price);
           await orderHistoryPage.goTo();
-          await orderHistoryPage.deleteOrder(matchingIndex);
+          await orderHistoryPage.deleteOrder(orderId);
           await orderHistoryPage.verifyDeleteOrder(orderId);
+          await homePage.logout();
+          await loginPage.localStorageIsEmpty();
 
         } else {
           page.close();

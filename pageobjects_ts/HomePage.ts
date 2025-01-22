@@ -14,6 +14,7 @@ export class HomePage {
   minPrice: Locator;
   maxPrice: Locator;
   checkboxOption: Locator;
+  signOut: Locator
 
   constructor(page: Page) {
     this.page = page;
@@ -24,6 +25,7 @@ export class HomePage {
     this.minPrice = page.locator('[name="minPrice"]').nth(1);
     this.maxPrice = page.locator('[name="maxPrice"]').nth(1);
     this.checkboxOption = page.locator('[for="cat"]');
+    this.signOut = page.locator('.fa-sign-out');
   }
 
   async searchProduct(product: string) {
@@ -65,6 +67,10 @@ export class HomePage {
       // Handle the case where the product is not found
       console.log(`Product ${product} not found.`);
     }
+  }
+
+  async logout(){
+    await this.signOut.click();
   }
 
 }
