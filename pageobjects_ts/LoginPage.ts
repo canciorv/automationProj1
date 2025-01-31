@@ -1,25 +1,23 @@
 import { type Page, type Locator, expect } from "@playwright/test";
 
 export class LoginPage {
-  page: Page;
-  email: Locator;
-  password: Locator;
-  loginButton: Locator;
-  toastMessage: Locator;
+  private email: Locator;
+  private password: Locator;
+  private loginButton: Locator;
+  private toastMessage: Locator;
 
-  constructor(page: Page) {
-    this.page = page;
+  constructor(private page: Page) {
     this.loginButton = page.locator("#login");
     this.email = page.locator("#userEmail");
     this.password = page.locator("#userPassword");
     this.toastMessage = page.locator("#toast-container");
   }
 
-  async goTo() {
+  async goTo(): Promise<void> {
     await this.page.goto("https://rahulshettyacademy.com/client");
   }
 
-  async userLogin(email: string, password: string) {
+  async userLogin(email: string, password: string): Promise<void> {
     await this.email.fill(email);
     await this.password.fill(password);
     await this.loginButton.click();
@@ -33,11 +31,12 @@ export class LoginPage {
     }
   }
 
-  async localStorageIsEmpty() {
+  async localStorageIsEmpty(): Promise<void> {
     const isEmpty = await this.page.evaluate(() => {
       return localStorage.length === 0;
     });
     await expect(isEmpty).toBe(true);
   }
 }
-module.exports = { LoginPage };
+
+export default LoginPage;

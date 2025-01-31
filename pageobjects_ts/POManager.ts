@@ -24,15 +24,15 @@ export class POManager {
 
   constructor(page: Page) {
     this.page = page;
-    this.loginPage = new LoginPage(this.page);
-    this.homePage = new HomePage(this.page);
-    this.productDetailsPage = new ProductDetailsPage(this.page);
-    this.cartPage = new CartPage(this.page);
-    this.checkoutPage = new CheckoutPage(this.page);
-    this.orderVerificationPage = new OrderVerificationPage(this.page);
-    this.orderHistoryPage = new OrderHistoryPage(this.page);
-    this.excelFile = new ExcelFile(this.page);
-    this.orderDetailsPage = new OrderDetailsPage(this.page);
+    this.loginPage = new LoginPage(page);
+    this.homePage = new HomePage(page);
+    this.productDetailsPage = new ProductDetailsPage(page);
+    this.cartPage = new CartPage(page);
+    this.checkoutPage = new CheckoutPage(page);
+    this.orderVerificationPage = new OrderVerificationPage(page);
+    this.orderHistoryPage = new OrderHistoryPage(page);
+    this.excelFile = new ExcelFile(page);
+    this.orderDetailsPage = new OrderDetailsPage(page);
   }
 
   getLoginPage() {
@@ -71,4 +71,5 @@ export class POManager {
     return this.orderDetailsPage
   }
 }
-module.exports = { POManager };
+
+export default POManager;

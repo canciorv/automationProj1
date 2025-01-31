@@ -1,34 +1,23 @@
-import {
-  type Page,
-  type Locator,
-  expect,
-  LaunchOptions,
-} from "@playwright/test";
+import { type Page, type Locator, expect } from "@playwright/test";
 
 export class HomePage {
-  page: Page;
-  searchBar: Locator;
-  cardBody: Locator;
-  cardPrice: Locator;
-  toastMessage: Locator;
-  minPrice: Locator;
-  maxPrice: Locator;
-  checkboxOption: Locator;
-  signOut: Locator
+  private searchBar: Locator;
+  private cardBody: Locator;
+  private toastMessage: Locator;
+  private minPrice: Locator;
+  private maxPrice: Locator;
+  private signOut: Locator;
 
-  constructor(page: Page) {
-    this.page = page;
+  constructor(private page: Page) {
     this.searchBar = page.locator('[name="search"]').nth(1);
     this.cardBody = page.locator("h5");
-    this.cardPrice = page.locator(".text-muted");
     this.toastMessage = page.locator("#toast-container");
     this.minPrice = page.locator('[name="minPrice"]').nth(1);
     this.maxPrice = page.locator('[name="maxPrice"]').nth(1);
-    this.checkboxOption = page.locator('[for="cat"]');
-    this.signOut = page.locator('.fa-sign-out');
+    this.signOut = page.locator(".fa-sign-out");
   }
 
-  async searchProduct(product: string) {
+  async searchProduct(product: string): Promise<boolean> {
     await this.searchBar.fill(product);
     await this.page.keyboard.press("Enter");
     const response = await this.page.waitForResponse((response) =>
@@ -44,14 +33,12 @@ export class HomePage {
     }
   }
 
-
-
   async filterPrice(
     product: string,
     productPrice: string,
     minPrice: string,
     maxPrice: string
-  ) {
+  ): Promise<void> {
     await this.minPrice.fill(minPrice);
     await this.maxPrice.fill(maxPrice);
     await this.page.keyboard.press("Enter");
@@ -69,9 +56,9 @@ export class HomePage {
     }
   }
 
-  async logout(){
+  async logout(): Promise<void> {
     await this.signOut.click();
   }
-
 }
-module.exports = { HomePage };
+
+export default HomePage;

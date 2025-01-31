@@ -1,27 +1,21 @@
- import { type Page, type Locator, expect } from "@playwright/test";
+import { type Page, type Locator } from "@playwright/test";
 
 export class CartPage {
-    page: Page;
-    cartPageButton: Locator;
-    checkoutButton: Locator;
+  private cartPageButton: Locator;
+  private checkoutButton: Locator;
 
-    constructor(page){
-        this.page = page;
-        this.cartPageButton = page.locator(".fa-shopping-cart").first();
-        this.checkoutButton = page.getByRole('button', { name: 'Checkout' });
-    }
-    
-    async goTo(){
-        await this.cartPageButton.click();   
-     
-    }
+  constructor(page: Page) {
+    this.cartPageButton = page.locator(".fa-shopping-cart").first();
+    this.checkoutButton = page.getByRole("button", { name: "Checkout" });
+  }
 
-    async checkout(){
-        await this.checkoutButton.click();
-    }
+  async goTo(): Promise<void> {
+    await this.cartPageButton.click();
+  }
 
-
-
+  async checkout(): Promise<void> {
+    await this.checkoutButton.click();
+  }
 }
 
-module.exports = { CartPage };
+export default CartPage;
