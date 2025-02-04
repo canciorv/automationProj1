@@ -1,9 +1,14 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 import { POManager } from "../pageobjects_ts/POManager";
 
-const dataSet = JSON.parse(JSON.stringify(require("../utils/loginData.json")));
+interface LoginData {
+  userEmail: string;
+  userPassword: string;
+}
 
-for (const data of dataSet) {
+const loginData: LoginData[] = require("../utils/loginData.json");
+
+for (const data of loginData) {
   test(`Login ${data.userEmail}`, async ({ page }) => {
     const poManager = new POManager(page);
     const loginPage = poManager.getLoginPage();

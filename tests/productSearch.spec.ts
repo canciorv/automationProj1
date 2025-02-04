@@ -2,20 +2,34 @@ import { test, expect, request } from "@playwright/test";
 import { POManager } from "../pageobjects_ts/POManager";
 import { APiUtil } from "../utils/APiUtil";
 
-const productList = JSON.parse(
-  JSON.stringify(require("../utils/productList.json"))
-);
-const dataPayload = JSON.parse(
-  JSON.stringify(require("../utils/loginData.json"))
-);
+interface LoginData {
+  userEmail: string;
+  userPassword: string;
+}
 
-const requestPayload = JSON.parse(
-  JSON.stringify(require("../utils/requestData.json"))
-);
+interface ProductList {
+  item: string;
+  price: string;
+  minPrice: string;
+  maxPrice: string;
+}
 
-const checkboxOption = requestPayload.productCategory;
+export interface Payload {
+  productName: string;
+  minPrice: number;
+  maxPrice: number;
+  productCategory: string[] ;
+  productSubCategory: string[] ;
+  productFor: string[] ;
+}
 
-let token;
+const productList: ProductList[]  = require("../utils/productList.json");
+const dataPayload: LoginData[] = require("../utils/loginData.json");
+const requestPayload: Payload = require("../utils/requestData.json");
+
+const checkboxOption: string[] = requestPayload.productCategory;
+
+let token: string;
 test.beforeAll(async () => {
   const payload = dataPayload[0];
   const apiContext = await request.newContext();
@@ -23,12 +37,16 @@ test.beforeAll(async () => {
   token = await apiUtil.getToken();
 });
 
+const getToken = async (page)=>{
+  await page.addInitScript((value) => {
+    window.localStorage.setItem("token", value);
+  }, token);
+};
+
 for (const products of productList) {
   test(`Search Product ${products.item}`, async ({ page }) => {
     const poManager = new POManager(page);
-    await page.addInitScript((value) => {
-      window.localStorage.setItem("token", value);
-    }, token);
+    await getToken(page);
     const loginPage = poManager.getLoginPage();
     await loginPage.goTo();
     const homePage = poManager.getHomePage();
@@ -37,9 +55,7 @@ for (const products of productList) {
 
   test(`Filter Price ${products.item}`, async ({ page }) => {
     const poManager = new POManager(page);
-    await page.addInitScript((value) => {
-      window.localStorage.setItem("token", value);
-    }, token);
+    await getToken(page);
     const loginPage = poManager.getLoginPage();
     await loginPage.goTo();
     const homePage = poManager.getHomePage();
@@ -48,14 +64,12 @@ for (const products of productList) {
 }
   test(`Filter Category`, async ({ page }) => {
     const poManager = new POManager(page);
-    await page.addInitScript((value) => {
-      window.localStorage.setItem("token", value);
-    }, token);
+    await getToken(page);
     const loginPage = poManager.getLoginPage();
     await loginPage.goTo();
     const apiContext = await request.newContext();
     const apiUtil = new APiUtil(apiContext, requestPayload);
     const productCategory = await apiUtil.filterCategory(token);
-    const compareArrays = checkboxOption.every((element, index) => element === productCategory[index]);
+    const compareArrays = checkboxOption.every((element, index) => element === productCategory[index]); // compare the requestData(checkboxOption) productCategory to equal each of the productCategory returned 
     expect(compareArrays).toBeTruthy();
   });

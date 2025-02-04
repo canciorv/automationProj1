@@ -1,27 +1,29 @@
+import {LoginData} from '../tests/e2e.spec';
+import {Payload} from '../tests/productSearch.spec';
+
 export class APiUtil {
     apiContext: any;
-    payload: string;
+    payload: LoginData | Payload;
 
-    constructor(apiContext, payload){
+    constructor(apiContext: any, payload: LoginData| Payload){
         this.apiContext = apiContext;
         this.payload = payload;
-    }
+    };
 
-    async getToken(){
+    async getToken(): Promise<string>{
         const loginResponse = await this.apiContext.post('https://rahulshettyacademy.com/api/ecom/auth/login',
         {
             data:this.payload
         });
 
         const loginResponseJson = await loginResponse.json();
-        const token =loginResponseJson.token;
-        return token;
-    }
+        return loginResponseJson.token;
+    };
 
-    async filterCategory(token){
+    async filterCategory(token: string):Promise<string[]>{
         const filterResponse = await this.apiContext.post('https://rahulshettyacademy.com/api/ecom/product/get-all-products',
         {
-            
+             
             headers: {
                 Authorization: token
               },
@@ -29,15 +31,10 @@ export class APiUtil {
             
         });
         const filterResponseJson = await filterResponse.json();
-        const productCategoryCount = await filterResponseJson.data.length;
+        console.log(filterResponseJson.data);
+        return filterResponseJson.data.map(product => product.productCategory);
 
-        let responseData: any[] = []
-        for(let i=0; i < productCategoryCount; i++){
-            responseData.push(filterResponseJson.data[i].productCategory)
-        }
-        return responseData;
+    };
+};
 
-    }
-}
-
-module.exports = {APiUtil};
+export default APiUtil;
