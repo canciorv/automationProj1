@@ -17,13 +17,13 @@ interface ProductList {
 const loginData: LoginData[] = require("../utils/loginData.json");
 const productList: ProductList[] = require("../utils/productList.json");
 
-async function setupPageWithToken(page: Page, token: string): Promise<void> {
+const setupPageWithToken = async (page: Page, token: string): Promise<void> => {
   await page.addInitScript((value) => {
     window.localStorage.setItem("token", value);
   }, token);
 }
 
-async function performOrderFlow(page: Page, poManager: POManager, product: ProductList, credentials: LoginData): Promise<void> {
+const performOrderFlow = async (page: Page, poManager: POManager, product: ProductList, credentials: LoginData): Promise<void> => {
   const loginPage = poManager.getLoginPage();
   await loginPage.goTo();
   const homePage = poManager.getHomePage();
